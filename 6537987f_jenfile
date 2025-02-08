@@ -1,17 +1,17 @@
 pipeline {
       agent any
       stages {
-          stage('One') {
+          stage('6537987f-op-s1') {
           steps {
             echo 'Continue from previous phase: Ready to deploy next environment.'
           }
           }
-          stage('Two') {
+          stage('6537987f-op-s2') {
           steps {
             input('Do you want to update to UAT container?')
           }
           }
-          stage('Three') {
+          stage('6537987f-op-s3') {
           steps {
                  sh '''#!/bin/bash
                  puppet resource file /tmp/clone ensure=absent force=true;
@@ -25,13 +25,13 @@ pipeline {
                  echo "UAT container updated"
           }
           }
-          stage('Four') {
+          stage('6537987f-op-s4') {
           steps {
             input('Do you want to deploy to Production container?')
                 
           }
           }
-          stage('Five') {
+          stage('6537987f-op-s5') {
           steps {
                  sh '''#!/bin/bash
                  targets=puppetclient2.localdomain;
@@ -39,6 +39,12 @@ pipeline {
                  bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root;
                  '''
                  echo "Production container updated"
+          }
+          }
+
+	  stage('6537987f-op-s6') {
+          steps {
+            echo 'Completed updating to Production Container'
           }
           }
           stage('Completed updating Operation') {

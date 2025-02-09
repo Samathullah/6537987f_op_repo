@@ -3,9 +3,25 @@ pipeline {
       stages {
           stage('6537987f-op-s1') {
           steps {
-            echo 'Continue from previous phase: Ready to deploy next environment.'
-          }
-          }
+            script {
+                    def politeID = "6537987f"
+                    def uatsvrContainer = "$6537987f_uatsvr"
+                    def backupImage = "$6537987f_uatsvr_image"
+                    def boltScript = "$6537987f_script"
+
+                    echo "Removing old backup image..."
+                    sh "docker image rm -f ${backupImage} || true"
+
+                    echo "Creating new backup image..."
+                    sh "docker commit ${uatsvrContainer} ${backupImage}"
+
+                    echo "Updating UAT web server..."
+                    sh "bolt script run ${boltScript} --targets ${uatsvrContainer}"
+
+                    echo "${politeID}_OP_S1: uat web server is backup and updated"
+                }
+            }
+        }
           stage('6537987f-op-s2') {
           steps {
             input('Do you want to update to UAT container?')

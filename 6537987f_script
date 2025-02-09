@@ -1,0 +1,10 @@
+#!/bin/bash
+apt-get update
+puppet resource package git ensure=present
+puppet resource package apache2 ensure=present
+puppet resource service apache2 ensure=running
+puppet resource file /tmp/clone ensure=absent force=true
+puppet resource file /tmp/clone ensure=directory
+cd /tmp/clone
+git clone https://<your token>@github.com/<your repo>/devops_repo.git
+cp -p /tmp/clone/devops_repo/index.html /var/www/html

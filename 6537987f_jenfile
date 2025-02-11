@@ -5,9 +5,9 @@ pipeline {
           steps {
             script {
                     def politeID = "6537987f"
-                    def uatsvrContainer = "$6537987f_uatsvr"
-                    def backupImage = "$6537987f_uatsvr_image"
-                    def boltScript = "$6537987f_script"
+                    def uatsvrContainer = "6537987f_uatsvr"
+                    def backupImage = "6537987f_uatsvr_image"
+                    def boltScript = "6537987f_script"
 
                     echo "Removing old backup image..."
                     sh "docker image rm -f ${backupImage} || true"

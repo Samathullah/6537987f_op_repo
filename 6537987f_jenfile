@@ -18,7 +18,7 @@ pipeline {
                     echo "Updating UAT web server..."
                     sh "bolt script run ${boltScript} --targets ${uatsvrContainer}"
 
-                    echo "${politeID}_OP_S1: uat web server is backup and updated"
+                    echo "6537987f_OP_S1: uat web server is backup and updated"
                 }
             }
         }

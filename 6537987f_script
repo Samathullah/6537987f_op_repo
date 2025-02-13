@@ -10,21 +10,8 @@ puppet resource file /tmp/6537987f/research ensure=directory
 
 cd /tmp/6537987f
 
-# Check if the repository directory exists and remove it if it does
-rm -rf /tmp/clone/6537987f_op_repo
 
-# Clone the repository
 git clone https://github.com/Samathullah/6537987f_op_repo.git
 git clone "$REPO_URL" /tmp/6537987f/research
-
-# Check if the required file exists before copying
-if [ -f "/tmp/6537987f/research/6537987f_index.html" ]; then
-  cp /tmp/6537987f/research/6537987f_index.html /tmp/clone/6537987f_op_repo/
-else
-  echo "File /tmp/6537987f/research/6537987f_index.html not found!"
-  exit 1
-fi
-
-
 
 cp -p /tmp/6537987f/research/6537987f_index.html /var/www/html/index.html

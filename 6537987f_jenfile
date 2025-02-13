@@ -26,10 +26,26 @@ pipeline {
             }
         }
           stage('6537987f-op-s2') {
-          steps {
-            input('Do you want to update to UAT container?')
-          }
-          }
+        steps {
+                script {
+                    def politeID = "6537987f"
+                    def uatsvrPort = "32500:80"
+                    def resultFile = "/tmp/uatsvr-result-file"
+
+                    echo "Executing web test for UAT server..."
+                    sh "curl -Is http://localhost:${uatsvrPort} | head -n 1 > ${resultFile}"
+
+                    def result = sh(script: "cat ${resultFile}", returnStdout: true).trim()
+
+                    if (result.contains("HTTP/1.1 200 OK")) {
+                        echo "${politeID}_OP_S2: uat svr is running after update"
+                    } else {
+                        echo "${politeID}_OP_S2: uat svr fails"
+                        error("UAT web server test failed. Aborting pipeline.")
+                    }
+                }
+            }
+        }
           stage('6537987f-op-s3') {
           steps {
                  sh '''#!/bin/bash

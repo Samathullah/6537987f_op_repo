@@ -22,7 +22,7 @@ pipeline {
         		targets="6537987f_uatsvr"
         		locate_script="/tmp/clone/6537987f_op_repo/6537987f_script"
         
-        	bolt script run \$locate_script -t \$targets -u clientadm -p user123 --no-host-key-check --run-as root
+        	bolt script run \$locate_script -t \$targets -u clientadm -p 6537987f --no-host-key-check --run-as root
     """
 
     echo "6537987f_OP_S1: UAT web server is backed up and updated"

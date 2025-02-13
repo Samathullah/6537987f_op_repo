@@ -4,8 +4,6 @@ pipeline {
           stage('6537987f-op-s1') {
           steps {
             script {
-    		def politeID = "6537987f"
-    		def boltScript = "6537987f_script"
 
     		echo "Removing old backup image..."
     		sh 'docker image rm -f 6537987f_uatsvr_image || true'

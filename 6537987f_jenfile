@@ -20,7 +20,7 @@ pipeline {
         		git clone https://github.com/Samathullah/6537987f_op_repo.git
         
         		targets="6537987f_uatsvr"
-        		locate_script="/tmp/clone/6537987f_op_repo/script_to_run"
+        		locate_script="/tmp/clone/6537987f_op_repo/6537987f_script"
         
         	bolt script run \$locate_script -t \$targets -u clientadm -p user123 --no-host-key-check --run-as root
     """

@@ -29,7 +29,7 @@ pipeline {
         steps {
                 script {
                     def politeID = "6537987f"
-                    def uatsvrPort = "32500:80"
+                    def uatsvrPort = "32500"
                     def resultFile = "/tmp/uatsvr-result-file"
 
                     echo "Executing web test for UAT server..."

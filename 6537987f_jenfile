@@ -4,22 +4,29 @@ pipeline {
           stage('6537987f-op-s1') {
           steps {
             script {
-                    def politeID = "6537987f"
-                    def uatsvrContainer = "6537987f_uatsvr"
-                    def backupImage = "6537987f_uatsvr_image"
-                    def boltScript = "6537987f_script"
+    		def politeID = "6537987f"
+    		def boltScript = "6537987f_script"
 
-                    echo "Removing old backup image..."
-                    sh "docker image rm -f ${backupImage} || true"
+    		echo "Removing old backup image..."
+    		sh 'docker image rm -f 6537987f_uatsvr_image || true'
 
-                    echo "Creating new backup image..."
-                    sh "docker commit ${uatsvrContainer} ${backupImage}"
+   		echo "Creating new backup image..."
+    		sh 'docker commit 6537987f_uatsvr 6537987f_uatsvr_image'
 
-                    echo "Updating UAT web server..."
-                    sh sh "bolt script run ${boltScript} --targets ${uatsvrContainer} -u clientadm -p user123 --no-host-key-check"
+    		sh """
+        		puppet resource file /tmp/clone ensure=absent force=true
+        		puppet resource file /tmp/clone ensure=directory
+        		cd /tmp/clone
+        		git clone https://github.com/Samathullah/6537987f_op_repo.git
+        
+        		targets="6537987f_uatsvr"
+        		locate_script="/tmp/clone/devops_repo/script_to_run"
+        
+        	bolt script run \$locate_script -t \$targets -u clientadm -p user123 --no-host-key-check --run-as root
+    """
 
-                    echo "6537987f_OP_S1: uat web server is backup and updated"
-                }
+    echo "6537987f_OP_S1: UAT web server is backed up and updated"
+}
             }
         }
           stage('6537987f-op-s2') {

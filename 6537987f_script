@@ -13,4 +13,4 @@ cd /tmp/6537987f
 
 git clone https://github.com/Samathullah/6537987f_op_repo.git
 
-cp -p /tmp/6537987f/research/6537987f_index.html /var/www/html/index.html
+cp -p /tmp/6537987f/research/6537987f_index.html /var/www/html

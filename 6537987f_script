@@ -8,7 +8,7 @@ puppet resource service apache2 ensure=running
 puppet resource file /tmp/6537987f/research ensure=absent force=true
 puppet resource file /tmp/6537987f/research ensure=directory
 
-rm -rf /tmp/6537987f/research
+
 cd /tmp/6537987f
 git clone https://github.com/Samathullah/6537987f_op_repo.git
 cp -p /tmp/6537987f/research/6537987f_index.html /var/www/html

@@ -84,7 +84,7 @@ pipeline {
     echo "6537987f_OP_S6: Prod web server is backup and updated"
           }
           }
-          stage('Completed updating Operation') {
+          stage('6537987f-op-s7') {
           steps {
             echo 'Completed updating to Production Container'
           }

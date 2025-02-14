@@ -60,18 +60,26 @@ pipeline {
           }
           stage('6537987f-op-s5') {
           steps {
-                 sh '''#!/bin/bash
-                 targets=puppetclient2.localdomain;
-                 locate_script='/tmp/clone/devops_repo/script_to_run';
-                 bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root;
-                 '''
-                 echo "Production container updated"
+                 input('<your polite ID>_OP_S5: Deploy new update to prod web server?') 
           }
           }
 
 	  stage('6537987f-op-s6') {
           steps {
-            echo 'Completed updating to Production Container'
+            sh 'docker image rm -f 6537987f_prodsvr_image || true'
+	    sh 'docker commit 6537987f_prodsvr 6537987f_prodsvr_image'
+
+		sh '''#!/bin/bash
+                 puppet resource file /tmp/6537987f ensure=absent force=true;
+                 puppet resource file /tmp/6537987f ensure=directory;
+	  	 cd /tmp/6537987f;
+	   	 git clone https://github.com/Samathullah/6537987f_op_repo.git;
+                 targets=6537987f_prodsvr.localdomain;
+                 locate_script='/tmp/6537987f/6537987f_op_repo/6537987f_script';
+                 bolt script run $locate_script -t $targets -u clientadm -p 6537987f --no-host-key-check --run-as root;
+                 '''
+
+    echo "6537987f_OP_S6: Prod web server is backup and updated"
           }
           }
           stage('Completed updating Operation') {

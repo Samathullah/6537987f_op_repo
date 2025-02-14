@@ -70,15 +70,19 @@ pipeline {
 	    sh 'docker commit 6537987f_prodsvr 6537987f_prodsvr_image'
 
 		sh '''#!/bin/bash
-                 puppet resource file /tmp/6537987f ensure=absent force=true;
-                 puppet resource file /tmp/6537987f ensure=directory;
-		 rm -rf /tmp/6537987f/6537987f_op_repo
-	  	 cd /tmp/6537987f;
-	   	 git clone https://github.com/Samathullah/6537987f_op_repo.git;
-                 targets=6537987f_prodsvr.localdomain;
-                 locate_script='/tmp/6537987f/6537987f_op_repo/6537987f_script';
-                 bolt script run $locate_script -t $targets -u clientadm -p 6537987f --no-host-key-check --run-as root;
-                 '''
+    puppet resource file /tmp/6537987f ensure=absent force=true;
+    puppet resource file /tmp/6537987f ensure=directory;
+
+    # Ensure no leftover repo exists before cloning
+    rm -rf /tmp/6537987f/6537987f_op_repo
+
+    cd /tmp/6537987f;
+    git clone https://github.com/Samathullah/6537987f_op_repo.git;
+
+    targets=6537987f_prodsvr.localdomain;
+    locate_script='/tmp/6537987f/6537987f_op_repo/6537987f_script';
+    bolt script run $locate_script -t $targets -u clientadm -p 6537987f --no-host-key-check --run-as root;
+'''
 
     echo "6537987f_OP_S6: Prod web server is backup and updated"
           }

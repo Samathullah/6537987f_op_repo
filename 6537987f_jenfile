@@ -73,9 +73,6 @@ pipeline {
     puppet resource file /tmp/6537987f ensure=absent force=true;
     puppet resource file /tmp/6537987f ensure=directory;
 
-    # Ensure no leftover repo exists before cloning
-    rm -rf /tmp/6537987f/6537987f_op_repo
-
     cd /tmp/6537987f;
     git clone https://github.com/Samathullah/6537987f_op_repo.git;
 

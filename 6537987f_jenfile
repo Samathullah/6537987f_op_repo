@@ -101,8 +101,9 @@ pipeline {
 		else {
 			echo "6537987f_OP_S7: Production website failed!"
 			v2 = input(
-				message:'Action'
-				parameters:[choice(name:",choices:['Trigger roll back','Troubleshooting'])] 
+    				message: 'Action',
+    			parameters: [
+        			choice(name: 'Action', choices: ['Trigger roll back', 'Troubleshooting'])])
                        
 		if (v2 == "Trigger roll back") {
                             echo "6537987f_OP_S7: Production website is rolling back"

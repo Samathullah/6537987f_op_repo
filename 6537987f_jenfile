@@ -86,7 +86,29 @@ pipeline {
           }
           stage('6537987f-op-s7') {
           steps {
-            echo 'Completed updating to Production Container'
+            script {
+                    def politeID = "6537987f"
+                    def prodsvrPort = "32600"
+                    def resultFile = "/tmp/prodsvr-result-file"
+
+                    echo "Executing web test for UAT server..."
+                    sh "curl -Is http://localhost:${prodsvrPort} | head -n 1 > ${resultFile}"
+		    def result = sh(script: "cat ${resultFile}", returnStdout: true).trim()
+
+		if (result.contains("HTTP/1.1 200 OK")) {
+                        echo "6537987f_OP_S7: Production website is operational"
+			}
+		else {
+			echo "6537987f_OP_S7: Production website failed!"
+			v2 = input(
+				message:'Action'
+				parameters:[choice(name:",choices:['Trigger roll back','Troubleshooting'])] 
+                       
+		if (v2 == "Trigger roll back") {
+                            echo "6537987f_OP_S7: Production website is rolling back"
+                        } else {
+                            echo "6537987f_OP_S7: Troubleshooting of Production website is in progress"
+
           }
           }
       }

@@ -72,6 +72,7 @@ pipeline {
 		sh '''#!/bin/bash
                  puppet resource file /tmp/6537987f ensure=absent force=true;
                  puppet resource file /tmp/6537987f ensure=directory;
+		 rm -rf /tmp/6537987f/6537987f_op_repo
 	  	 cd /tmp/6537987f;
 	   	 git clone https://github.com/Samathullah/6537987f_op_repo.git;
                  targets=6537987f_prodsvr.localdomain;

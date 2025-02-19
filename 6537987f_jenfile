@@ -99,7 +99,8 @@ pipeline {
                 echo "6537987f_OP_S7: Production website is operational"
             } else {
                 echo "6537987f_OP_S7: Production website failed!"
-               def v2 = input(
+                
+                def v2 = input(
                     message: 'Action',
                     parameters: [
                         choice(name: 'Action', choices: ['Trigger roll back', 'Troubleshooting'])
@@ -115,4 +116,3 @@ pipeline {
         }
     }
 }
-

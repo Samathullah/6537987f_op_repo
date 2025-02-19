@@ -11,7 +11,8 @@ pipeline {
    		echo "Creating new backup image..."
     		sh 'docker commit 6537987f_uatsvr 6537987f_uatsvr_image'
 
-    		sh '''#!/bin/bash
+    		sh '''
+		
                  puppet resource file /tmp/6537987f ensure=absent force=true;
                  puppet resource file /tmp/6537987f ensure=directory;
 	   cd /tmp/6537987f;
@@ -69,7 +70,7 @@ pipeline {
             sh 'docker image rm -f 6537987f_prodsvr_image || true'
 	    sh 'docker commit 6537987f_prodsvr 6537987f_prodsvr_image'
 
-		sh '''#!/bin/bash
+		sh '''
     puppet resource file /tmp/6537987f ensure=absent force=true;
     puppet resource file /tmp/6537987f ensure=directory;
 
@@ -115,4 +116,5 @@ pipeline {
             }
         }
     }
+}
 }

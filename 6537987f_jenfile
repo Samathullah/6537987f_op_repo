@@ -1,7 +1,7 @@
 pipeline {
       agent any
       stages {
-          stage('6537987f-op-s1') {
+          stage('6537987f-OP-S1') {
           steps {
             script {
 
@@ -25,7 +25,7 @@ pipeline {
 }
             }
         }
-          stage('6537987f-op-s2') {
+          stage('6537987f-OP-S2') {
         steps {
                 script {
                     def politeID = "6537987f"
@@ -46,25 +46,25 @@ pipeline {
                 }
             }
         }
-          stage('6537987f-op-s3') {
+          stage('6537987f-OP-S3') {
 		steps {
-            input('Proceed with stress test on uat web server?')
+            input('6537987f_OP_S3: Proceed with stress test on uat web server?')
           }
           }
 
-          stage('6537987f-op-s4') {
+          stage('6537987f-OP-S4') {
           steps {
-            echo "Stress test result is good"
+            echo "6537987f_OP_S4: Stress test result is good"
                 
           }
           }
-          stage('6537987f-op-s5') {
+          stage('6537987f-OP-S5') {
           steps {
-                 input('<your polite ID>_OP_S5: Deploy new update to prod web server?') 
-          }
+                 input('6537987f_OP_S5: Deploy new update to prod web server?') 
+          	}
           }
 
-	  stage('6537987f-op-s6') {
+	  stage('6537987f-OP-S6') {
           steps {
             sh 'docker image rm -f 6537987f_prodsvr_image || true'
 	    sh 'docker commit 6537987f_prodsvr 6537987f_prodsvr_image'
@@ -84,7 +84,7 @@ pipeline {
     echo "6537987f_OP_S6: Prod web server is backup and updated"
           }
           }
-          stage('6537987f-op-s7') {
+          stage('6537987f-OP-S7') {
     steps {
         script {
             def politeID = "6537987f"

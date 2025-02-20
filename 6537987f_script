@@ -11,4 +11,4 @@ puppet resource file /tmp/6537987f/research ensure=directory
 
 cd /tmp/6537987f/6537987f_op_repo/
 git clone https://github.com/Samathullah/6537987f_op_repo.git
-cp -p /tmp/6537987f/6537987f_op_repo/6537987f_index.html /var/www/html
+cp -p /tmp/6537987f/6537987f_op_repo/6537987f_index.html /var/www/html/index.html

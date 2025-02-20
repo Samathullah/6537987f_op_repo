@@ -64,7 +64,9 @@ pipeline {
             sh 'docker image rm -f 6537987f_prodsvr_image || true'
 	    sh 'docker commit 6537987f_prodsvr 6537987f_prodsvr_image'
 
-		sh '''
+		sh '''	
+		 puppet resource file /tmp/6537987f ensure=absent force=true;
+   		 puppet resource file /tmp/6537987f ensure=directory;
    		 cd /tmp/6537987f;
    		 git clone https://github.com/Samathullah/6537987f_op_repo.git;
    		 targets=6537987f_prodsvr.localdomain;

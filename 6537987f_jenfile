@@ -12,11 +12,7 @@ pipeline {
     		sh 'docker commit 6537987f_uatsvr 6537987f_uatsvr_image'
 
     		sh '''
-		
-                 puppet resource file /tmp/6537987f ensure=absent force=true;
-                 puppet resource file /tmp/6537987f ensure=directory;
 	   cd /tmp/6537987f;
-	   git clone https://github.com/Samathullah/6537987f_op_repo.git;
                  targets=6537987f_uatsvr.localdomain;
                  locate_script='/tmp/6537987f/6537987f_op_repo/6537987f_script';
                  bolt script run $locate_script -t $targets -u clientadm -p 6537987f --no-host-key-check --run-as root;

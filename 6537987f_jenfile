@@ -12,9 +12,11 @@ pipeline {
     		sh 'docker commit 6537987f_uatsvr 6537987f_uatsvr_image'
 
     		sh '''
-		puppet resource file /tmp/6537987f ensure=absent force=true;
-   	 	puppet resource file /tmp/6537987f ensure=directory;
+		
+                 puppet resource file /tmp/6537987f ensure=absent force=true;
+                 puppet resource file /tmp/6537987f ensure=directory;
 	   cd /tmp/6537987f;
+	   git clone https://github.com/Samathullah/6537987f_op_repo.git;
                  targets=6537987f_uatsvr.localdomain;
                  locate_script='/tmp/6537987f/6537987f_op_repo/6537987f_script';
                  bolt script run $locate_script -t $targets -u clientadm -p 6537987f --no-host-key-check --run-as root;
@@ -27,17 +29,19 @@ pipeline {
           stage('6537987f-OP-S2') {
         steps {
                 script {
+                    def politeID = "6537987f"
+                    def uatsvrPort = "32500"
                     def resultFile = "/tmp/uatsvr-result-file"
 
                     echo "Executing web test for UAT server..."
-                    sh "curl -Is http://localhost:32500 | head -n 1 > ${resultFile}"
+                    sh "curl -Is http://localhost:${uatsvrPort} | head -n 1 > ${resultFile}"
 
                     def result = sh(script: "cat ${resultFile}", returnStdout: true).trim()
 
                     if (result.contains("HTTP/1.1 200 OK")) {
-                        echo "6537987f_OP_S2: uat svr is running after update"
+                        echo "${politeID}_OP_S2: uat svr is running after update"
                     } else {
-                        echo "6537987f_OP_S2: uat svr fails"
+                        echo "${politeID}_OP_S2: uat svr fails"
                         error("UAT web server test failed. Aborting pipeline.")
                     }
                 }
@@ -66,14 +70,16 @@ pipeline {
             sh 'docker image rm -f 6537987f_prodsvr_image || true'
 	    sh 'docker commit 6537987f_prodsvr 6537987f_prodsvr_image'
 
-		sh '''	
-		 puppet resource file /tmp/6537987f ensure=absent force=true;
-   		 puppet resource file /tmp/6537987f ensure=directory;
-   		 cd /tmp/6537987f;
-   		 git clone https://github.com/Samathullah/6537987f_op_repo.git;
-   		 targets=6537987f_prodsvr.localdomain;
-   		 locate_script='/tmp/6537987f/6537987f_op_repo/6537987f_script';
-   		 bolt script run $locate_script -t $targets -u clientadm -p 6537987f --no-host-key-check --run-as root;
+		sh '''
+    puppet resource file /tmp/6537987f ensure=absent force=true;
+    puppet resource file /tmp/6537987f ensure=directory;
+
+    cd /tmp/6537987f;
+    git clone https://github.com/Samathullah/6537987f_op_repo.git;
+
+    targets=6537987f_prodsvr.localdomain;
+    locate_script='/tmp/6537987f/6537987f_op_repo/6537987f_script';
+    bolt script run $locate_script -t $targets -u clientadm -p 6537987f --no-host-key-check --run-as root;
 '''
 
     echo "6537987f_OP_S6: Prod web server is backup and updated"

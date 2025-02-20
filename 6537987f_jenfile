@@ -25,19 +25,17 @@ pipeline {
           stage('6537987f-OP-S2') {
         steps {
                 script {
-                    def politeID = "6537987f"
-                    def uatsvrPort = "32500"
                     def resultFile = "/tmp/uatsvr-result-file"
 
                     echo "Executing web test for UAT server..."
-                    sh "curl -Is http://localhost:${uatsvrPort} | head -n 1 > ${resultFile}"
+                    sh "curl -Is http://localhost:32500 | head -n 1 > ${resultFile}"
 
                     def result = sh(script: "cat ${resultFile}", returnStdout: true).trim()
 
                     if (result.contains("HTTP/1.1 200 OK")) {
-                        echo "${politeID}_OP_S2: uat svr is running after update"
+                        echo "6537987f_OP_S2: uat svr is running after update"
                     } else {
-                        echo "${politeID}_OP_S2: uat svr fails"
+                        echo "6537987f_OP_S2: uat svr fails"
                         error("UAT web server test failed. Aborting pipeline.")
                     }
                 }
@@ -67,15 +65,11 @@ pipeline {
 	    sh 'docker commit 6537987f_prodsvr 6537987f_prodsvr_image'
 
 		sh '''
-    puppet resource file /tmp/6537987f ensure=absent force=true;
-    puppet resource file /tmp/6537987f ensure=directory;
-
-    cd /tmp/6537987f;
-    git clone https://github.com/Samathullah/6537987f_op_repo.git;
-
-    targets=6537987f_prodsvr.localdomain;
-    locate_script='/tmp/6537987f/6537987f_op_repo/6537987f_script';
-    bolt script run $locate_script -t $targets -u clientadm -p 6537987f --no-host-key-check --run-as root;
+   		 cd /tmp/6537987f;
+   		 git clone https://github.com/Samathullah/6537987f_op_repo.git;
+   		 targets=6537987f_prodsvr.localdomain;
+   		 locate_script='/tmp/6537987f/6537987f_op_repo/6537987f_script';
+   		 bolt script run $locate_script -t $targets -u clientadm -p 6537987f --no-host-key-check --run-as root;
 '''
 
     echo "6537987f_OP_S6: Prod web server is backup and updated"

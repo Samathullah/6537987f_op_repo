@@ -6,7 +6,7 @@ pipeline {
             script {
 
     		echo "Removing old backup image..."
-    		sh 'docker image rm -f 6537987f_uatsvr_image || true'
+    		sh 'docker image rm -f 6537987f_uatsvr_image'
 
    		echo "Creating new backup image..."
     		sh 'docker commit 6537987f_uatsvr 6537987f_uatsvr_image'

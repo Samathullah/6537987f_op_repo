@@ -84,7 +84,6 @@ pipeline {
           stage('6537987f-OP-S7') {
     steps {
         script {
-            def prodsvrPort = "32600"
             def resultFile = "/tmp/prodsvr-result-file"
 
             echo "Executing web test for PROD server..."

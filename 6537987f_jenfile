@@ -84,12 +84,11 @@ pipeline {
           stage('6537987f-OP-S7') {
     steps {
         script {
-            def politeID = "6537987f"
             def prodsvrPort = "32600"
             def resultFile = "/tmp/prodsvr-result-file"
 
             echo "Executing web test for PROD server..."
-            sh "curl -Is http://localhost:${prodsvrPort} | head -n 1 > ${resultFile}"
+            sh "curl -Is http://localhost:32600 | head -n 1 > ${resultFile}"
             def result = sh(script: "cat ${resultFile}", returnStdout: true).trim()
 
             if (result.contains("HTTP/1.1 200 OK")) {
